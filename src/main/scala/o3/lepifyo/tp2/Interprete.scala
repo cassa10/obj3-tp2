@@ -1,7 +1,11 @@
 package o3.lepifyo.tp2
 
-class Interprete[Programa] {
+import o3.lepifyo.tp2.ast.ElementoAST
 
-  def interpretar(ast: Programa) = 12
+class Interprete {
+
+  def interpretar(ast: List[ElementoAST]): Any = {
+    ast.head.representar() //hasta ahora alcanza con suponer al ast con un solo elemento
+  }
 
 }

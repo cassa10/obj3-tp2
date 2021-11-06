@@ -2,11 +2,9 @@ package o3.lepifyo.tp2.ast
 
 case class NumeroLiteral(valor: Int) extends ElementoAST {
 
-  def equals(otroNumeroLiteral: NumeroLiteral) = valor == otroNumeroLiteral.valor
+  override def representar(): NumeroLiteral = this
 
-  def ejecutar() = valor
-
-  def analizar() = ???
+//  override def ejecutar(): Int = valor
 
 }
 
