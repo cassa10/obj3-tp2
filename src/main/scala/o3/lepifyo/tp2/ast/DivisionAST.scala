@@ -5,9 +5,3 @@ case class DivisionAST(operador1: ElementoAST, operador2: ElementoAST) extends E
   override def representar(): DivisionAST = this
 
 }
-
-object DivisionAST {
-
-  def apply(operador1: ElementoAST, operador2: ElementoAST) = new DivisionAST(operador1, operador2)
-
-}

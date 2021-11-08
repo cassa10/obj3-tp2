@@ -6,8 +6,3 @@ case class MultiplicacionAST(operador1: ElementoAST, operador2: ElementoAST) ext
 
 }
 
-object MultiplicacionAST {
-
-  def apply(operador1: ElementoAST, operador2: ElementoAST) = new MultiplicacionAST(operador1, operador2)
-
-}

@@ -7,9 +7,3 @@ case class NumeroLiteral(valor: Int) extends ElementoAST {
 //  override def ejecutar(): Int = valor
 
 }
-
-object NumeroLiteral {
-
-  def apply(n: Int) = new NumeroLiteral(n)
-
-}

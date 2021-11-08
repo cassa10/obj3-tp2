@@ -7,9 +7,3 @@ case class BooleanoLiteral(valor: Boolean) extends ElementoAST {
 //  override def ejecutar(): Boolean = valor
 
 }
-
-object BooleanoLiteral {
-
-  def apply(b: Boolean) = new BooleanoLiteral(b)
-
-}

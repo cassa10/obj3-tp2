@@ -5,9 +5,3 @@ case class SumaAST(operador1: ElementoAST, operador2: ElementoAST) extends Eleme
   override def representar(): SumaAST = this
 
 }
-
-object SumaAST {
-
-  def apply(operador1: ElementoAST, operador2: ElementoAST) = new SumaAST(operador1, operador2)
-
-}
