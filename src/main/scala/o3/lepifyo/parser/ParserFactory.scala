@@ -1,6 +1,6 @@
 package o3.lepifyo.parser
 
-import o3.lepifyo.tp2.ast.{BooleanoLiteral, DivisionAST, ElementoAST, MultiplicacionAST, NumeroLiteral, RestaAST, SumaAST}
+import o3.lepifyo.tp2.ast.{BooleanoLiteral, DistintoAST, DivisionAST, ElementoAST, IgualAST, MayorAST, MayorIgualAST, MenorAST, MenorIgualAST, MultiplicacionAST, NumeroLiteral, RestaAST, SumaAST}
 
 class ParserFactory {
 
@@ -21,6 +21,18 @@ class ParserFactory {
 
   def division(o1: Expresion, o2: Expresion) = DivisionAST(o1, o2)
 
+  def igual(o1: Expresion, o2: Expresion) = IgualAST(o1, o2)
+
+  def distinto(o1: Expresion, o2: Expresion) = DistintoAST(o1, o2)
+
+  def menor(o1: Expresion, o2: Expresion) = MenorAST(o1, o2)
+
+  def mayor(o1: Expresion, o2: Expresion) = MayorAST(o1, o2)
+
+  def menorIgual(o1: Expresion, o2: Expresion) = MenorIgualAST(o1, o2)
+
+  def mayorIgual(o1: Expresion, o2: Expresion) = MayorIgualAST(o1, o2)
+
   def build: ParserLepifyo[Programa, Expresion] = new ParserLepifyo[Programa, Expresion](
     programa = programa,
     numero = numero,
@@ -28,7 +40,13 @@ class ParserFactory {
     suma = suma,
     resta = resta,
     multiplicacion = multiplicacion,
-    division = division
+    division = division,
+    igual = igual,
+    distinto = distinto,
+    menor = menor,
+    mayor = mayor,
+    menorIgual = menorIgual,
+    mayorIgual = mayorIgual
   )
 
 }

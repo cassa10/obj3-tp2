@@ -1,8 +1,8 @@
 package o3.lepifyo.tp2.ast
 
-import o3.lepifyo.tp2.ast.exception.{DivisionPorCero, ErrorDeTipos}
+import o3.lepifyo.tp2.ast.exception.ErrorDeTipos
 
-case class DivisionAST(operador1: ElementoAST, operador2: ElementoAST) extends ElementoAST {
+case class MenorIgualAST(operador1: ElementoAST, operador2: ElementoAST) extends ElementoAST {
 
   override def evaluarse(): ElementoAST = {
     operador1.evaluarse() match {
@@ -13,9 +13,9 @@ case class DivisionAST(operador1: ElementoAST, operador2: ElementoAST) extends E
 
   def aplicarConOperador2(valor: Int, operador: ElementoAST) = {
     operador.evaluarse() match {
-      case NumeroLiteral(0) => throw DivisionPorCero()
-      case NumeroLiteral(valor2) => NumeroLiteral(valor / valor2)
+      case NumeroLiteral(valor2) => BooleanoLiteral(valor <= valor2)
       case _ => throw ErrorDeTipos()
     }
   }
+
 }

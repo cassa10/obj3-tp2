@@ -1,7 +1,21 @@
 package o3.lepifyo.tp2.ast
 
+import o3.lepifyo.tp2.ast.exception.ErrorDeTipos
+
 case class SumaAST(operador1: ElementoAST, operador2: ElementoAST) extends ElementoAST {
 
-  override def representar(): SumaAST = this
+  override def evaluarse(): ElementoAST = {
+    operador1.evaluarse() match {
+      case NumeroLiteral(valor1) => aplicarSumaConOperador2(valor1, operador2)
+      case _ => throw ErrorDeTipos()
+    }
+  }
+
+  def aplicarSumaConOperador2(valor: Int, operador: ElementoAST) = {
+    operador.evaluarse() match {
+      case NumeroLiteral(valor2) => NumeroLiteral(valor + valor2)
+      case _ => throw ErrorDeTipos()
+    }
+  }
 
 }
