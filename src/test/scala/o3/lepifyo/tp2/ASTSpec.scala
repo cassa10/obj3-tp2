@@ -1,7 +1,7 @@
 package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
-import o3.lepifyo.tp2.ast.exception.{DivisionPorCero, ErrorDeTipos}
+import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos}
 import o3.lepifyo.tp2.ast.{BooleanoLiteral, NumeroLiteral}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
@@ -103,8 +103,8 @@ class ASTSpec extends AnyFunSpec with Matchers {
 
     it("no se puede interpretar un programa con una operacion de divisor con denominador 0") {
       val ast = parser.parsear("1 / 0")
-
-      an[DivisionPorCero] should be thrownBy interprete.interpretar(ast)
+      //FIXME: Por simpleza del refactor se deja ArithmeticExcepcion pero ver si levantar una propia.
+      an[ArithmeticException] should be thrownBy interprete.interpretar(ast)
     }
 
     it("el resultado de interpretar un programa con operaciones aritmeticas combinadas es la representacion estas operaciones") {
