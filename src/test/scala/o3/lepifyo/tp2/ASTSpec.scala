@@ -1,8 +1,10 @@
 package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
-import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos}
+import o3.lepifyo.tp2.analisis.Analizador
+import o3.lepifyo.tp2.ast.exception.ErrorDeTipos
 import o3.lepifyo.tp2.ast.{BooleanoLiteral, NumeroLiteral}
+import o3.lepifyo.tp2.ejecucion.Interprete
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -14,6 +16,8 @@ class ASTSpec extends AnyFunSpec with Matchers {
   }
 
   val interprete = new Interprete
+
+  val analizador = new Analizador
 
   it("el resultado de interpretar un programa con un número literal es la representación del mismo número literal") {
     val ast = parser.parsear("12")
@@ -227,5 +231,24 @@ class ASTSpec extends AnyFunSpec with Matchers {
 
   }
 
-}
+  describe("análisis de programa") {
 
+    it("No se encuentran problemas al analizar un programa correcto"){
+      val ast = parser.parsear("1 + 1")
+
+      val problemasEncontrados = analizador.analizar(ast)
+
+      problemasEncontrados shouldBe empty
+    }
+
+    it("Se encuentra un problema al analizar un programa que contiene una división por cero"){
+      val ast = parser.parsear("1 / 0")
+
+      val problemasEncontrados = analizador.analizar(ast)
+
+      problemasEncontrados should have size 1
+    }
+
+  }
+
+}

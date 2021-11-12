@@ -1,4 +1,4 @@
-package o3.lepifyo.tp2
+package o3.lepifyo.tp2.ejecucion
 
 import o3.lepifyo.tp2.ast.ElementoAST
 
