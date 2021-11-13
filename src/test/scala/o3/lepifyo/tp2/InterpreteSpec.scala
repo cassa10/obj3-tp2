@@ -8,7 +8,7 @@ import o3.lepifyo.tp2.ejecucion.Interprete
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
-class ASTSpec extends AnyFunSpec with Matchers {
+class InterpreteSpec extends AnyFunSpec with Matchers {
 
   val parser = {
     val parserFactory = new ParserFactory
@@ -16,8 +16,6 @@ class ASTSpec extends AnyFunSpec with Matchers {
   }
 
   val interprete = new Interprete
-
-  val analizador = new Analizador
 
   it("el resultado de interpretar un programa con un número literal es la representación del mismo número literal") {
     val ast = parser.parsear("12")
@@ -33,7 +31,7 @@ class ASTSpec extends AnyFunSpec with Matchers {
 
   describe("operaciones aritmeticas") {
 
-  it("el resultado de interpretar un programa con la operacion aritmetica de suma de dos numeros literales es la representacion del resultado") {
+    it("el resultado de interpretar un programa con la operacion aritmetica de suma de dos numeros literales es la representacion del resultado") {
       val ast = parser.parsear("1 + 2")
 
       interprete.interpretar(ast) should equal(NumeroLiteral(3))
@@ -121,109 +119,109 @@ class ASTSpec extends AnyFunSpec with Matchers {
 
   describe("operaciones de comparacion") {
     //FIXME hacemos dos tests por cada uno?
-    it("el resultado de interpretar un programa con la operacion igual entre dos numeros literales es la representacion del resultado"){
+    it("el resultado de interpretar un programa con la operacion igual entre dos numeros literales es la representacion del resultado") {
       val ast = parser.parsear("1 == 1")
 
       interprete.interpretar(ast) should equal(BooleanoLiteral(true))
     }
 
-    it("no se puede interpretar un programa con una operacion igual con el primer operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion igual con el primer operador de un tipo distinto a un numero") {
       val ast = parser.parsear("true == 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion igual con el segundo operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion igual con el segundo operador de un tipo distinto a un numero") {
       val ast = parser.parsear("1 == false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("el resultado de interpretar un programa con la operacion distinto entre dos numeros literales es la representacion del resultado"){
+    it("el resultado de interpretar un programa con la operacion distinto entre dos numeros literales es la representacion del resultado") {
       val ast = parser.parsear("1 != 1")
 
       interprete.interpretar(ast) should equal(BooleanoLiteral(false))
     }
 
-    it("no se puede interpretar un programa con una operacion distinto con el primer operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion distinto con el primer operador de un tipo distinto a un numero") {
       val ast = parser.parsear("true != 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion distinto con el segundo operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion distinto con el segundo operador de un tipo distinto a un numero") {
       val ast = parser.parsear("1 != false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("el resultado de interpretar un programa con la operacion menor entre dos numeros literales es la representacion del resultado"){
+    it("el resultado de interpretar un programa con la operacion menor entre dos numeros literales es la representacion del resultado") {
       val ast = parser.parsear("1 < 3")
 
       interprete.interpretar(ast) should equal(BooleanoLiteral(true))
     }
 
-    it("no se puede interpretar un programa con una operacion menor con el primer operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion menor con el primer operador de un tipo distinto a un numero") {
       val ast = parser.parsear("true < 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion menor con el segundo operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion menor con el segundo operador de un tipo distinto a un numero") {
       val ast = parser.parsear("1 < false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("el resultado de interpretar un programa con la operacion mayor entre dos numeros literales es la representacion del resultado"){
+    it("el resultado de interpretar un programa con la operacion mayor entre dos numeros literales es la representacion del resultado") {
       val ast = parser.parsear("1 > 3")
 
       interprete.interpretar(ast) should equal(BooleanoLiteral(false))
     }
 
-    it("no se puede interpretar un programa con una operacion mayor con el primer operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion mayor con el primer operador de un tipo distinto a un numero") {
       val ast = parser.parsear("true > 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion mayor con el segundo operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion mayor con el segundo operador de un tipo distinto a un numero") {
       val ast = parser.parsear("1 > false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("el resultado de interpretar un programa con la operacion menor o igual entre dos numeros literales es la representacion del resultado"){
+    it("el resultado de interpretar un programa con la operacion menor o igual entre dos numeros literales es la representacion del resultado") {
       val ast = parser.parsear("1 <= 3")
 
       interprete.interpretar(ast) should equal(BooleanoLiteral(true))
     }
 
-    it("no se puede interpretar un programa con una operacion menor o igual con el primer operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion menor o igual con el primer operador de un tipo distinto a un numero") {
       val ast = parser.parsear("true <= 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion menor o igual con el segundo operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion menor o igual con el segundo operador de un tipo distinto a un numero") {
       val ast = parser.parsear("1 <= false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("el resultado de interpretar un programa con la operacion mayor o igual entre dos numeros literales es la representacion del resultado"){
+    it("el resultado de interpretar un programa con la operacion mayor o igual entre dos numeros literales es la representacion del resultado") {
       val ast = parser.parsear("1 >= 3")
 
       interprete.interpretar(ast) should equal(BooleanoLiteral(false))
     }
 
-    it("no se puede interpretar un programa con una operacion mayor o igual con el primer operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion mayor o igual con el primer operador de un tipo distinto a un numero") {
       val ast = parser.parsear("true >= 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion mayor o igual con el segundo operador de un tipo distinto a un numero"){
+    it("no se puede interpretar un programa con una operacion mayor o igual con el segundo operador de un tipo distinto a un numero") {
       val ast = parser.parsear("1 >= false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
@@ -231,24 +229,5 @@ class ASTSpec extends AnyFunSpec with Matchers {
 
   }
 
-  describe("análisis de programa") {
-
-    it("No se encuentran problemas al analizar un programa correcto"){
-      val ast = parser.parsear("1 + 1")
-
-      val problemasEncontrados = analizador.analizar(ast)
-
-      problemasEncontrados shouldBe empty
-    }
-
-    it("Se encuentra un problema al analizar un programa que contiene una división por cero"){
-      val ast = parser.parsear("1 / 0")
-
-      val problemasEncontrados = analizador.analizar(ast)
-
-      problemasEncontrados should have size 1
-    }
-
-  }
 
 }
