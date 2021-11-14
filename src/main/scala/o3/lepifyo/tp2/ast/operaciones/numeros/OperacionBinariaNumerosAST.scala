@@ -22,6 +22,7 @@ trait OperacionBinariaNumerosAST {
       case _ => throw ErrorDeTipos()
     }
   }
+
   def analizarse(reglas: List[Regla]): List[Option[Problema]] = {
     reglas.map(regla => regla.apply(this.asInstanceOf[ElementoAST])).concat(
       operador1.analizarse(reglas)
