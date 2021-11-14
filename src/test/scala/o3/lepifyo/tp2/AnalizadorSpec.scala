@@ -1,7 +1,7 @@
 package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
-import o3.lepifyo.tp2.analisis.{Advertencia, Analizador, DivisionPorCero, Error, OperacionReduntante, Problema}
+import o3.lepifyo.tp2.analisis.{Analizador, DivisionPorCero, NivelGravedad, OperacionReduntante, Problema}
 import o3.lepifyo.tp2.ast.NumeroLiteral
 import o3.lepifyo.tp2.ast.operaciones.numeros.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
 import org.scalatest.funspec.AnyFunSpec
@@ -36,7 +36,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 1
-        problemasEncontrados.head shouldBe Problema("No se puede dividir por cero", Error(), DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
+        problemasEncontrados.head shouldBe Problema("No se puede dividir por cero", NivelGravedad.Error, DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
       }
 
       it("Se encuentran errores al analizar un programa que contiene mas de una división por cero") {
@@ -45,8 +45,8 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 2
-        problemasEncontrados.head shouldBe Problema("No se puede dividir por cero", Error(), DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
-        problemasEncontrados(1) shouldBe Problema("No se puede dividir por cero", Error(), DivisionAST(NumeroLiteral(50), NumeroLiteral(0)))
+        problemasEncontrados.head shouldBe Problema("No se puede dividir por cero", NivelGravedad.Error, DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
+        problemasEncontrados(1) shouldBe Problema("No se puede dividir por cero", NivelGravedad.Error, DivisionAST(NumeroLiteral(50), NumeroLiteral(0)))
       }
 
     }
@@ -59,7 +59,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 1
-        problemasEncontrados.head shouldBe Problema("Sumar cero es redundate", Advertencia(), SumaAST(NumeroLiteral(1), NumeroLiteral(0)))
+        problemasEncontrados.head shouldBe Problema("Sumar cero es redundate", NivelGravedad.Advertencia, SumaAST(NumeroLiteral(1), NumeroLiteral(0)))
       }
 
       it("Se encuentra una advertencia al analizar un programa en el que explícitamente a cero le sea sumado otro número") {
@@ -68,7 +68,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 1
-        problemasEncontrados.head shouldBe Problema("Sumar cero es redundate", Advertencia(), SumaAST(NumeroLiteral(0), NumeroLiteral(1)))
+        problemasEncontrados.head shouldBe Problema("Sumar cero es redundate", NivelGravedad.Advertencia, SumaAST(NumeroLiteral(0), NumeroLiteral(1)))
       }
 
       it("Se encuentra una advertencia al analizar un programa en el que explícitamente se reste cero") {
@@ -77,7 +77,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 1
-        problemasEncontrados.head shouldBe Problema("Restar cero es redundate", Advertencia(), RestaAST(NumeroLiteral(1), NumeroLiteral(0)))
+        problemasEncontrados.head shouldBe Problema("Restar cero es redundate", NivelGravedad.Advertencia, RestaAST(NumeroLiteral(1), NumeroLiteral(0)))
       }
 
       it("Se encuentra una advertencia al analizar un programa en el que explícitamente se multiplique por uno") {
@@ -86,7 +86,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 1
-        problemasEncontrados.head shouldBe Problema("Multiplicar por uno es redundate", Advertencia(), MultiplicacionAST(NumeroLiteral(2), NumeroLiteral(1)))
+        problemasEncontrados.head shouldBe Problema("Multiplicar por uno es redundate", NivelGravedad.Advertencia, MultiplicacionAST(NumeroLiteral(2), NumeroLiteral(1)))
       }
 
       it("Se encuentra una advertencia al analizar un programa en el que explícitamente a uno se lo multiplique por otro número") {
@@ -95,7 +95,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 1
-        problemasEncontrados.head shouldBe Problema("Multiplicar por uno es redundate", Advertencia(), MultiplicacionAST(NumeroLiteral(1), NumeroLiteral(2)))
+        problemasEncontrados.head shouldBe Problema("Multiplicar por uno es redundate", NivelGravedad.Advertencia, MultiplicacionAST(NumeroLiteral(1), NumeroLiteral(2)))
       }
 
       it("Se encuentra una advertencia al analizar un programa en el que explícitamente se divida por uno") {
@@ -104,7 +104,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
         problemasEncontrados should have size 1
-        problemasEncontrados.head shouldBe Problema("Dividir por uno es redundate", Advertencia(), DivisionAST(NumeroLiteral(2), NumeroLiteral(1)))
+        problemasEncontrados.head shouldBe Problema("Dividir por uno es redundate", NivelGravedad.Advertencia, DivisionAST(NumeroLiteral(2), NumeroLiteral(1)))
       }
 
     }

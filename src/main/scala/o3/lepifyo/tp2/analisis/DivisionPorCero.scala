@@ -5,9 +5,11 @@ import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteral}
 
 case class DivisionPorCero() extends Regla {
 
+  override val nivelGravedad = NivelGravedad.Error
+
   def apply(elementoAST: ElementoAST): Option[Problema] = {
     elementoAST match {
-      case DivisionAST(_, NumeroLiteral(0)) => Option(Problema("No se puede dividir por cero", Error(), elementoAST))
+      case DivisionAST(_, NumeroLiteral(0)) => Option(Problema("No se puede dividir por cero", nivelGravedad, elementoAST))
       case _ => None
     }
   }
