@@ -9,4 +9,6 @@ case class NumeroLiteral(valor: Int) extends ElementoAST {
   //FIXME: Analizar si permitir que alguna regla ne permitan escribir algun numero literal?
   def analizarse(reglas: List[Regla]): List[Option[Problema]] = List(None)
 
+  override def toString: String = valor.toString
+
 }
