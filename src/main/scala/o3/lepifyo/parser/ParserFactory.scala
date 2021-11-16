@@ -3,8 +3,7 @@ package o3.lepifyo.parser
 import o3.lepifyo.tp2.ast.operaciones.numeros.{DistintoAST, DivisionAST, IgualAST, MayorAST, MayorIgualAST, MenorAST, MenorIgualAST, MultiplicacionAST, RestaAST, SumaAST}
 import o3.lepifyo.tp2.ast.{BooleanoLiteral, DeclaracionVariable, ElementoAST, NumeroLiteral}
 
-// TODO: Cambiar implementación a object para utilizar en todos lados la misma instancia
-class ParserFactory {
+object ParserFactory {
 
   type Expresion = ElementoAST
   type Programa = List[Expresion]

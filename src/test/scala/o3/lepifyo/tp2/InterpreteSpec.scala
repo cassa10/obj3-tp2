@@ -10,10 +10,7 @@ import org.scalatest.matchers.should.Matchers
 
 class InterpreteSpec extends AnyFunSpec with Matchers {
 
-  val parser = {
-    val parserFactory = new ParserFactory
-    parserFactory.build
-  }
+  val parser = ParserFactory.build
 
   val interprete = new Interprete
 

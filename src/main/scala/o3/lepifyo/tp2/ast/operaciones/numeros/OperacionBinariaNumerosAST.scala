@@ -4,7 +4,7 @@ import o3.lepifyo.tp2.analisis.{Problema, Regla}
 import o3.lepifyo.tp2.ast.exception.ErrorDeTipos
 import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteral}
 
-// TODO: Revisar si hace falta incorporarlo a la jerarquia como una clase o dejarlo como un trait
+// TODO: Revisar si hace falta incorporarlo a la jerarquia como una clase o dejarlo como un mixin
 trait OperacionBinariaNumerosAST {
   def operador1: ElementoAST
   def operador2: ElementoAST

@@ -9,10 +9,7 @@ import org.scalatest.matchers.should.Matchers
 
 class AnalizadorSpec extends AnyFunSpec with Matchers {
 
-  val parser = {
-    val parserFactory = new ParserFactory
-    parserFactory.build
-  }
+  val parser = ParserFactory.build
 
   // TODO: Construir el analizador ya con las reglas seteadas
   val analizador = new Analizador

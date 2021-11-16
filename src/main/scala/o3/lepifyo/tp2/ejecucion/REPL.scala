@@ -6,10 +6,7 @@ import scala.io.StdIn.readLine
 
 object REPL {
 
-  val parser = {
-    val parserFactory = new ParserFactory
-    parserFactory.build
-  }
+  val parser = ParserFactory.build
 
   val interprete = new Interprete
 
