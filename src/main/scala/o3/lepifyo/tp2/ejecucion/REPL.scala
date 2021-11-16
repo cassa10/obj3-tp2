@@ -10,19 +10,25 @@ object REPL {
 
   val interprete = new Interprete
 
-  // TODO: Agregar handleo de excepciones para no poderder el repl
-  // TODO: Cambiar por while true
   def main(args: Array[String]): Unit = {
-    print("> ")
-    val input = readLine
+    var keepRunning = true
+    while (keepRunning) {
+      print("> ")
+      val input = readLine
+      input match {
+        case "exit" => keepRunning = false
+        case _ => parsearEInterpretar(input)
+      }
+    }
+  }
 
-    if (input == "exit") return
-
-    val ast = parser.parsear(input)
-    val resultado = interprete.interpretar(ast)
-    println(resultado.evaluarse)
-
-    main(args)
+  def parsearEInterpretar(input: String): Unit = {
+    try {
+      println(interprete.interpretar(parser.parsear(input)).evaluarse())
+    } catch {
+      //TODO: Mejorar el class matching y personalizar mas el mensaje de error
+      case e: Exception => println("Error: " + e.getMessage)
+    }
   }
 
 }

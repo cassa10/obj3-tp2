@@ -102,7 +102,7 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
 
     it("no se puede interpretar un programa con una operacion de divisor con denominador 0") {
       val ast = parser.parsear("1 / 0")
-      //FIXME: Por simpleza del refactor se deja ArithmeticExcepcion pero ver si levantar una propia.
+      //FIXME: Cambiar ArithmeticException por otra personalizada
       an[ArithmeticException] should be thrownBy interprete.interpretar(ast)
     }
 
