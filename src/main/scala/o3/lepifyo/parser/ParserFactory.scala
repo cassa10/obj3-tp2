@@ -1,8 +1,9 @@
 package o3.lepifyo.parser
 
 import o3.lepifyo.tp2.ast.operaciones.numeros.{DistintoAST, DivisionAST, IgualAST, MayorAST, MayorIgualAST, MenorAST, MenorIgualAST, MultiplicacionAST, RestaAST, SumaAST}
-import o3.lepifyo.tp2.ast.{BooleanoLiteral, ElementoAST, NumeroLiteral}
+import o3.lepifyo.tp2.ast.{BooleanoLiteral, DeclaracionVariable, ElementoAST, NumeroLiteral}
 
+// TODO: Cambiar implementación a object para utilizar en todos lados la misma instancia
 class ParserFactory {
 
   type Expresion = ElementoAST
@@ -34,6 +35,8 @@ class ParserFactory {
 
   def mayorIgual(o1: Expresion, o2: Expresion) = MayorIgualAST(o1, o2)
 
+  def declaracionVariable(nombre: String, valorInicial: Expresion) = DeclaracionVariable(nombre, valorInicial)
+
   def build: ParserLepifyo[Programa, Expresion] = new ParserLepifyo[Programa, Expresion](
     programa = programa,
     numero = numero,
@@ -47,7 +50,8 @@ class ParserFactory {
     menor = menor,
     mayor = mayor,
     menorIgual = menorIgual,
-    mayorIgual = mayorIgual
+    mayorIgual = mayorIgual,
+    declaracionVariable = declaracionVariable
   )
 
 }

@@ -13,6 +13,8 @@ object REPL {
 
   val interprete = new Interprete
 
+  // TODO: Agregar handleo de excepciones para no poderder el repl
+  // TODO: Cambiar por while true
   def main(args: Array[String]): Unit = {
     print("> ")
     val input = readLine

@@ -14,6 +14,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
     parserFactory.build
   }
 
+  // TODO: Construir el analizador ya con las reglas seteadas
   val analizador = new Analizador
 
   val reglas = List(new DivisionPorCero, new OperacionReduntante)
@@ -35,6 +36,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
 
         val problemasEncontrados = analizador.analizar(ast, reglas)
 
+        // TODO: Refactorizar los assert de las listas. Podemos validar que tiene un solo elemento y que es el elem que esperamos
         problemasEncontrados should have size 1
         problemasEncontrados.head shouldBe Problema("No se puede dividir por cero", NivelGravedad.Error, DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
       }
@@ -51,7 +53,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
 
     }
 
-    describe("Análisis de programas con operaciones reduntantes") {
+    describe("Análisis de programas con operaciones redundantes") {
 
       it("Se encuentra una advertencia al analizar un programa en el que explícitamente se sume cero") {
         val ast = parser.parsear("1 + 0")

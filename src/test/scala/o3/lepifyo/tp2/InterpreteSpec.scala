@@ -3,7 +3,7 @@ package o3.lepifyo.tp2
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.tp2.analisis.Analizador
 import o3.lepifyo.tp2.ast.exception.ErrorDeTipos
-import o3.lepifyo.tp2.ast.{BooleanoLiteral, NumeroLiteral}
+import o3.lepifyo.tp2.ast.{BooleanoLiteral, NumeroLiteral, Variable}
 import o3.lepifyo.tp2.ejecucion.Interprete
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
@@ -229,5 +229,14 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
 
   }
 
+  describe("declaración de variable") {
+
+    it("el resultado de interpretar un programa con la declaración de una variable es la representación de la variable definida con el valor definido asociado") {
+      val ast = parser.parsear("let edad = 27")
+
+      interprete.interpretar(ast) should equal(Variable("edad", NumeroLiteral(27)))
+    }
+
+  }
 
 }
