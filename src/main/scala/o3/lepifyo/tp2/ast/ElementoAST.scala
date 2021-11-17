@@ -7,6 +7,6 @@ trait ElementoAST {
   // TODO: Acotar el valor de retorno. No deberíamos permitir que se devuelva un Elemento AST (estamos permitiendo devolver SumaAST por ej)
   def evaluarse(): ElementoAST
 
-  def analizarse(reglas: List[Regla]): List[Option[Problema]]
+  def analizarse(reglas: List[Regla]): List[Problema]
 
 }

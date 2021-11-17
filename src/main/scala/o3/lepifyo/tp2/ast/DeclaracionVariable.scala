@@ -5,6 +5,6 @@ case class DeclaracionVariable(nombre: String, valorInicial: ElementoAST) extend
 
   override def evaluarse(): ElementoAST = Variable(nombre, valorInicial.evaluarse())
 
-  override def analizarse(reglas: List[Regla]): List[Option[Problema]] = List(None)
+  override def analizarse(reglas: List[Regla]): List[Problema] = List()
 
 }

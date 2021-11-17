@@ -6,7 +6,10 @@ case class NumeroLiteral(valor: Int) extends ElementoAST {
 
   override def evaluarse(): NumeroLiteral = this
 
-  def analizarse(reglas: List[Regla]): List[Option[Problema]] = reglas.map(regla => regla.apply(this))
+  def analizarse(reglas: List[Regla]): List[Problema] =
+    reglas.map(regla => regla.apply(this))
+      .filter(_.isDefined)
+      .map(_.get)
 
   override def toString: String = valor.toString
 
