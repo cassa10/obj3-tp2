@@ -2,7 +2,7 @@ package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.parser.ParserFactory.Programa
-import o3.lepifyo.tp2.analisis.{Analizador, DivisionPorCero, NivelGravedad, OperacionReduntante, Problema}
+import o3.lepifyo.tp2.analisis.{Analizador, DivisionPorCero, MensajeProblema, NivelGravedad, OperacionReduntante, Problema}
 import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteral}
 import o3.lepifyo.tp2.ast.operaciones.numeros.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
 import org.scalatest.funspec.AnyFunSpec
@@ -29,7 +29,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("1 / 0")
 
         assertarQueElUnicoProblemaCumple(ast,
-          "No se puede dividir por cero",
+          MensajeProblema.DivisionPorCero,
           NivelGravedad.Error,
           DivisionAST(NumeroLiteral(1), NumeroLiteral(0))
         )
@@ -40,8 +40,8 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
 
         val List(problema1, problema2) = analizador.analizar(ast)
 
-        problema1 shouldBe Problema("No se puede dividir por cero", NivelGravedad.Error, DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
-        problema2 shouldBe Problema("No se puede dividir por cero", NivelGravedad.Error, DivisionAST(NumeroLiteral(50), NumeroLiteral(0)))
+        problema1 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
+        problema2 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteral(50), NumeroLiteral(0)))
       }
 
     }
@@ -52,7 +52,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("1 + 0")
 
         assertarQueElUnicoProblemaCumple(ast,
-          "Sumar cero es redundate",
+          MensajeProblema.SumaCero,
           NivelGravedad.Advertencia,
           SumaAST(NumeroLiteral(1), NumeroLiteral(0))
         )
@@ -62,7 +62,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("0 + 1")
 
         assertarQueElUnicoProblemaCumple(ast,
-          "Sumar cero es redundate",
+          MensajeProblema.SumaCero,
           NivelGravedad.Advertencia,
           SumaAST(NumeroLiteral(0), NumeroLiteral(1))
         )
@@ -72,7 +72,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("1 - 0")
 
         assertarQueElUnicoProblemaCumple(ast,
-          "Restar cero es redundate",
+          MensajeProblema.RestarCero,
           NivelGravedad.Advertencia,
           RestaAST(NumeroLiteral(1), NumeroLiteral(0))
         )
@@ -82,7 +82,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("2 * 1")
 
         assertarQueElUnicoProblemaCumple(ast,
-          "Multiplicar por uno es redundate",
+          MensajeProblema.MultiplicarUno,
           NivelGravedad.Advertencia,
           MultiplicacionAST(NumeroLiteral(2), NumeroLiteral(1))
         )
@@ -92,7 +92,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("1 * 2")
 
         assertarQueElUnicoProblemaCumple(ast,
-          "Multiplicar por uno es redundate",
+          MensajeProblema.MultiplicarUno,
           NivelGravedad.Advertencia,
           MultiplicacionAST(NumeroLiteral(1), NumeroLiteral(2))
         )
@@ -102,7 +102,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("2 / 1")
 
         assertarQueElUnicoProblemaCumple(ast,
-          "Dividir por uno es redundate",
+          MensajeProblema.DividirUno,
           NivelGravedad.Advertencia,
           DivisionAST(NumeroLiteral(2), NumeroLiteral(1))
         )

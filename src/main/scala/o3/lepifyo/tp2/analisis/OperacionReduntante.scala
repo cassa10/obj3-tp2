@@ -11,13 +11,13 @@ case class OperacionReduntante() extends Regla {
   def apply(elementoAST: ElementoAST): Option[Problema] = {
     elementoAST match {
       case SumaAST(_, NumeroLiteral(0)) | SumaAST(NumeroLiteral(0), _) =>
-        Option(Problema("Sumar cero es redundate", nivelGravedad, elementoAST))
+        Option(Problema(MensajeProblema.SumaCero, nivelGravedad, elementoAST))
       case RestaAST(_, NumeroLiteral(0)) =>
-        Option(Problema("Restar cero es redundate", nivelGravedad, elementoAST))
+        Option(Problema(MensajeProblema.RestarCero, nivelGravedad, elementoAST))
       case MultiplicacionAST(_, NumeroLiteral(1)) | MultiplicacionAST(NumeroLiteral(1), _) =>
-        Option(Problema("Multiplicar por uno es redundate", nivelGravedad, elementoAST))
+        Option(Problema(MensajeProblema.MultiplicarUno, nivelGravedad, elementoAST))
       case DivisionAST(_, NumeroLiteral(1)) =>
-        Option(Problema("Dividir por uno es redundate", nivelGravedad, elementoAST))
+        Option(Problema(MensajeProblema.DividirUno, nivelGravedad, elementoAST))
       case _ => None
     }
   }
