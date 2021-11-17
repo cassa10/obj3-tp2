@@ -16,7 +16,6 @@ abstract class OperacionBinariaNumerosAST extends ElementoAST {
     }
   }
 
-  // TODO: Podria no devolver options de problemas
   def analizarse(reglas: List[Regla]): List[Problema] = {
     reglas.map(regla => regla.apply(this.asInstanceOf[ElementoAST]))
       .filter(_.isDefined)
