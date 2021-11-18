@@ -1,3 +1,3 @@
 package o3.lepifyo.tp2.ast.exception
 
-case class ErrorDeTipos() extends RuntimeException("La expresion no tipa")
+case class ErrorDeTipos() extends RuntimeException("La expresión no tipa")
