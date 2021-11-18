@@ -246,6 +246,12 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
       interprete.interpretar(ast) should equal(Variable("edad", NumeroLiteral(27)))
     }
 
+    it("el resultado de interpretar un programa con la lectura de una variable previamente declarada es el valor asociado a esa variable") {
+      val ast = parser.parsear("let edad = 27 \nedad")
+
+      interprete.interpretar(ast) should equal(NumeroLiteral(27))
+    }
+
   }
 
 }

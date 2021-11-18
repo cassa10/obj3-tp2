@@ -7,6 +7,4 @@ case class Variable(nombre: String, elementoAST: ElementoAST) extends ElementoAS
 
   override def analizarse(reglas: List[Regla]): List[Problema] = List()
 
-  override def toString: String = ""
-
 }
