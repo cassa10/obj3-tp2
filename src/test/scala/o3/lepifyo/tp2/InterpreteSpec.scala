@@ -122,13 +122,19 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
       interprete.interpretar(ast) should equal(BooleanoLiteral(true))
     }
 
-    it("no se puede interpretar un programa con una operacion igual con el primer operador de un tipo distinto a un numero") {
+    it("el resultado de interpretar un programa con la operacion igual entre dos booleanos literales es la representacion del resultado") {
+      val ast = parser.parsear("true == true")
+
+      interprete.interpretar(ast) should equal(BooleanoLiteral(true))
+    }
+
+    it("no se puede interpretar un programa con una operacion igual con el primer operador de un tipo distinto al segundo") {
       val ast = parser.parsear("true == 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion igual con el segundo operador de un tipo distinto a un numero") {
+    it("no se puede interpretar un programa con una operacion igual con el segundo operador de un tipo distinto al primero") {
       val ast = parser.parsear("1 == false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
@@ -140,13 +146,19 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
       interprete.interpretar(ast) should equal(BooleanoLiteral(false))
     }
 
-    it("no se puede interpretar un programa con una operacion distinto con el primer operador de un tipo distinto a un numero") {
+    it("el resultado de interpretar un programa con la operacion distinto entre dos booleanos literales es la representacion del resultado") {
+      val ast = parser.parsear("true != true")
+
+      interprete.interpretar(ast) should equal(BooleanoLiteral(false))
+    }
+
+    it("no se puede interpretar un programa con una operacion distinto con el primer operador de un tipo distinto al segundo") {
       val ast = parser.parsear("true != 1")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
     }
 
-    it("no se puede interpretar un programa con una operacion distinto con el segundo operador de un tipo distinto a un numero") {
+    it("no se puede interpretar un programa con una operacion distinto con el segundo operador de un tipo distinto al primero") {
       val ast = parser.parsear("1 != false")
 
       an[ErrorDeTipos] should be thrownBy interprete.interpretar(ast)
