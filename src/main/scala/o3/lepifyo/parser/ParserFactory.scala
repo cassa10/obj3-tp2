@@ -1,6 +1,8 @@
 package o3.lepifyo.parser
 
-import o3.lepifyo.tp2.ast.{BooleanoLiteral, ElementoAST, NumeroLiteral, VariableAST}
+import o3.lepifyo.tp2.ast.operaciones.{DistintoAST, DivisionAST, IgualAST, MayorAST, MayorIgualAST, MenorAST, MenorIgualAST, MultiplicacionAST, RestaAST, SumaAST}
+import o3.lepifyo.tp2.ast.variables.{DeclaracionVariable, VariableAST}
+import o3.lepifyo.tp2.ast.{BooleanoLiteral, ElementoAST, NumeroLiteral}
 
 object ParserFactory {
 
