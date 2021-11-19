@@ -1,7 +1,7 @@
 package o3.lepifyo.tp2.analisis
 
 import o3.lepifyo.tp2.analisis.NivelGravedad.Tipo
-import o3.lepifyo.tp2.ast.operaciones.numeros.DivisionAST
+import o3.lepifyo.tp2.ast.operaciones.DivisionAST
 import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteral}
 
 case class DivisionPorCero() extends Regla {

@@ -3,8 +3,8 @@ package o3.lepifyo.tp2
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.parser.ParserFactory.Programa
 import o3.lepifyo.tp2.analisis.{Analizador, DivisionPorCero, MensajeProblema, NivelGravedad, OperacionReduntante, Problema}
+import o3.lepifyo.tp2.ast.operaciones.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
 import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteral}
-import o3.lepifyo.tp2.ast.operaciones.numeros.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
