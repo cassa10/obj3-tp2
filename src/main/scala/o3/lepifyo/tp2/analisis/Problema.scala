@@ -10,4 +10,5 @@ object MensajeProblema {
   val SumaCero = "Sumar cero es redundante"
   val MultiplicarUno = "Multiplicar por uno es redundante"
   val DividirUno = "Dividir por uno es redundante"
+  val DeclaracionDeVariableRepetida: String => String = (nombre: String) => s"La variable $nombre esta declarada multiples veces"
 }

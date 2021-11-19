@@ -12,6 +12,8 @@ case class DeclaracionVariable(nombre: String, valorInicial: ElementoAST) extend
     ResultadoBooleanoLiteral(true) //agregar nuevo tipo de retorno¿?
   }
 
-  override def analizarse(reglas: List[Regla]): List[Problema] = List()
-
+  override def analizarse(reglas: List[Regla]): List[Problema] =
+    reglas.map(regla => regla.apply(this.asInstanceOf[ElementoAST]))
+      .filter(_.isDefined)
+      .map(_.get)
 }
