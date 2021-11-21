@@ -1,10 +1,9 @@
 package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
-import o3.lepifyo.tp2.ast.NumeroLiteral
+import o3.lepifyo.tp2.ast.Memoria
 import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos, ErrorDivisionPorCero}
-import o3.lepifyo.tp2.ast.variables.Variable
-import o3.lepifyo.tp2.resultado.{ResultadoBooleanoLiteral, ResultadoNumeroLiteral}
+import o3.lepifyo.tp2.resultado.{ResultadoBooleanoLiteral, ResultadoDeclaracionVariable, ResultadoNumeroLiteral}
 import o3.lepifyo.tp2.ejecucion.Interprete
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
@@ -241,7 +240,14 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
 
   describe("declaración de variable") {
 
-    it("el resultado de interpretar un programa con la lectura de una variable previamente declarada es el valor asociado a esa variable") {
+    it("el resultado de interpretar un programa con la declaración de una variable es la representación de declaración de variable y el guardado en memoria de la variable con su valor asociado") {
+      val ast = parser.parsear("let edad = 27")
+
+      interprete.interpretar(ast) should equal(ResultadoDeclaracionVariable())
+      Memoria.buscar("edad") should equal(ResultadoNumeroLiteral(27))
+    }
+
+    it("el resultado de interpretar un programa con la lectura de una variable previamente declarada es la representación del valor inicial asignado a la variable") {
       val ast = parser.parsear("let edad = 27 \nedad")
 
       interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(27))
