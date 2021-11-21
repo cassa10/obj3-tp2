@@ -4,8 +4,8 @@ import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.parser.ParserFactory.Programa
 import o3.lepifyo.tp2.analisis.{Analizador, DeclaracionDeVariableDuplicada, DivisionPorCero, MensajeProblema, NivelGravedad, OperacionReduntante, Problema}
 import o3.lepifyo.tp2.ast.operaciones.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
-import o3.lepifyo.tp2.ast.variables.DeclaracionVariable
-import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteral}
+import o3.lepifyo.tp2.ast.variables.DeclaracionVariableAST
+import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteralAST}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -32,7 +32,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.DivisionPorCero,
           NivelGravedad.Error,
-          DivisionAST(NumeroLiteral(1), NumeroLiteral(0))
+          DivisionAST(NumeroLiteralAST(1), NumeroLiteralAST(0))
         )
       }
 
@@ -41,8 +41,8 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
 
         val List(problema1, problema2) = analizador.analizar(ast)
 
-        problema1 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteral(1), NumeroLiteral(0)))
-        problema2 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteral(50), NumeroLiteral(0)))
+        problema1 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteralAST(1), NumeroLiteralAST(0)))
+        problema2 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteralAST(50), NumeroLiteralAST(0)))
       }
 
     }
@@ -55,7 +55,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.SumaCero,
           NivelGravedad.Advertencia,
-          SumaAST(NumeroLiteral(1), NumeroLiteral(0))
+          SumaAST(NumeroLiteralAST(1), NumeroLiteralAST(0))
         )
       }
 
@@ -65,7 +65,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.SumaCero,
           NivelGravedad.Advertencia,
-          SumaAST(NumeroLiteral(0), NumeroLiteral(1))
+          SumaAST(NumeroLiteralAST(0), NumeroLiteralAST(1))
         )
       }
 
@@ -75,7 +75,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.RestarCero,
           NivelGravedad.Advertencia,
-          RestaAST(NumeroLiteral(1), NumeroLiteral(0))
+          RestaAST(NumeroLiteralAST(1), NumeroLiteralAST(0))
         )
      }
 
@@ -85,7 +85,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.MultiplicarUno,
           NivelGravedad.Advertencia,
-          MultiplicacionAST(NumeroLiteral(2), NumeroLiteral(1))
+          MultiplicacionAST(NumeroLiteralAST(2), NumeroLiteralAST(1))
         )
      }
 
@@ -95,7 +95,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.MultiplicarUno,
           NivelGravedad.Advertencia,
-          MultiplicacionAST(NumeroLiteral(1), NumeroLiteral(2))
+          MultiplicacionAST(NumeroLiteralAST(1), NumeroLiteralAST(2))
         )
     }
 
@@ -105,7 +105,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.DividirUno,
           NivelGravedad.Advertencia,
-          DivisionAST(NumeroLiteral(2), NumeroLiteral(1))
+          DivisionAST(NumeroLiteralAST(2), NumeroLiteralAST(1))
         )
      }
 
@@ -115,7 +115,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         assertarQueElUnicoProblemaCumple(ast,
           MensajeProblema.DeclaracionDeVariableRepetida("var"),
           NivelGravedad.Error,
-          DeclaracionVariable("var", NumeroLiteral(2))
+          DeclaracionVariableAST("var", NumeroLiteralAST(2))
         )
       }
 

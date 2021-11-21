@@ -1,10 +1,9 @@
 package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
-import o3.lepifyo.tp2.ast.Memoria
 import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos, ErrorDivisionPorCero}
-import o3.lepifyo.tp2.resultado.{ResultadoBooleanoLiteral, ResultadoDeclaracionVariable, ResultadoNumeroLiteral}
-import o3.lepifyo.tp2.ejecucion.Interprete
+import o3.lepifyo.tp2.resultado.{ResultadoAsignacionVariable, ResultadoBooleanoLiteral, ResultadoNumeroLiteral}
+import o3.lepifyo.tp2.ejecucion.{Interprete, Memoria}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -238,19 +237,26 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
 
   }
 
-  describe("declaración de variable") {
+  describe("variables") {
 
     it("el resultado de interpretar un programa con la declaración de una variable es la representación de declaración de variable y el guardado en memoria de la variable con su valor asociado") {
       val ast = parser.parsear("let edad = 27")
 
-      interprete.interpretar(ast) should equal(ResultadoDeclaracionVariable())
-      Memoria.buscar("edad") should equal(ResultadoNumeroLiteral(27))
+      interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
+      Memoria.obtenerVariable("edad") should equal(ResultadoNumeroLiteral(27))
     }
 
     it("el resultado de interpretar un programa con la lectura de una variable previamente declarada es la representación del valor inicial asignado a la variable") {
       val ast = parser.parsear("let edad = 27 \nedad")
 
       interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(27))
+    }
+
+    it("el resultado de interpretar un programa con la escritura de una variable previamente declarada es la representación de asignación de variable y la actualización en memoria de la variable con su último valor asociado") {
+      val ast = parser.parsear("let añoActual = 2020 \nañoActual = añoActual + 1")
+
+      interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
+      Memoria.obtenerVariable("añoActual") should equal(ResultadoNumeroLiteral(2021))
     }
 
   }

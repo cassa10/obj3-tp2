@@ -2,7 +2,7 @@ package o3.lepifyo.tp2.analisis
 
 import o3.lepifyo.tp2.analisis.NivelGravedad.Tipo
 import o3.lepifyo.tp2.ast.operaciones.DivisionAST
-import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteral}
+import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteralAST}
 
 case class DivisionPorCero() extends Regla {
 
@@ -10,7 +10,7 @@ case class DivisionPorCero() extends Regla {
 
   def apply(elementoAST: ElementoAST): Option[Problema] = {
     elementoAST match {
-      case DivisionAST(_, NumeroLiteral(0)) => Option(Problema(MensajeProblema.DivisionPorCero, nivelGravedad, elementoAST))
+      case DivisionAST(_, NumeroLiteralAST(0)) => Option(Problema(MensajeProblema.DivisionPorCero, nivelGravedad, elementoAST))
       case _ => None
     }
   }

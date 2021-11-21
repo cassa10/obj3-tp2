@@ -1,8 +1,8 @@
 package o3.lepifyo.parser
 
 import o3.lepifyo.tp2.ast.operaciones.{DistintoAST, DivisionAST, IgualAST, MayorAST, MayorIgualAST, MenorAST, MenorIgualAST, MultiplicacionAST, RestaAST, SumaAST}
-import o3.lepifyo.tp2.ast.variables.{DeclaracionVariable, VariableAST}
-import o3.lepifyo.tp2.ast.{BooleanoLiteral, ElementoAST, NumeroLiteral}
+import o3.lepifyo.tp2.ast.variables.{AsignacionAST, DeclaracionVariableAST, VariableAST}
+import o3.lepifyo.tp2.ast.{BooleanoLiteralAST, ElementoAST, NumeroLiteralAST}
 
 object ParserFactory {
 
@@ -11,9 +11,9 @@ object ParserFactory {
 
   def programa(expresiones: Expresion*) = expresiones.toList
 
-  def numero(n: Int) = NumeroLiteral(n)
+  def numero(n: Int) = NumeroLiteralAST(n)
 
-  def booleano(b: Boolean) = BooleanoLiteral(b)
+  def booleano(b: Boolean) = BooleanoLiteralAST(b)
 
   def suma(o1: Expresion, o2: Expresion) = SumaAST(o1, o2)
 
@@ -35,9 +35,11 @@ object ParserFactory {
 
   def mayorIgual(o1: Expresion, o2: Expresion) = MayorIgualAST(o1, o2)
 
-  def declaracionVariable(nombre: String, valorInicial: Expresion) = DeclaracionVariable(nombre, valorInicial)
+  def declaracionVariable(nombre: String, valorInicial: Expresion) = DeclaracionVariableAST(nombre, valorInicial)
 
   def variable(nombre: String) = VariableAST(nombre)
+
+  def asignacion(nombre: String, valorNuevo: Expresion) = AsignacionAST(nombre, valorNuevo)
 
   def build: ParserLepifyo[Programa, Expresion] = new ParserLepifyo[Programa, Expresion](
     programa = programa,
@@ -54,7 +56,8 @@ object ParserFactory {
     menorIgual = menorIgual,
     mayorIgual = mayorIgual,
     declaracionVariable = declaracionVariable,
-    variable = variable
+    variable = variable,
+    asignacion = asignacion
   )
 
 }

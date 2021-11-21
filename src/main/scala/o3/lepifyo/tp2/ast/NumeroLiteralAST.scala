@@ -3,7 +3,7 @@ package o3.lepifyo.tp2.ast
 import o3.lepifyo.tp2.analisis.{Problema, Regla}
 import o3.lepifyo.tp2.resultado.ResultadoNumeroLiteral
 
-case class NumeroLiteral(valor: Int) extends ElementoAST {
+case class NumeroLiteralAST(valor: Int) extends ElementoAST {
 
   override def evaluarse(): ResultadoNumeroLiteral = ResultadoNumeroLiteral(valor)
 
