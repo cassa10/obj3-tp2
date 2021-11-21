@@ -14,12 +14,11 @@ abstract class OperacionBinariaAST extends ElementoAST {
 
   def evaluarse(): ResultadoExpresion
 
-  def analizarse(reglas: List[Regla]): List[Problema] = {
-    reglas.map(regla => regla.apply(this.asInstanceOf[ElementoAST]))
-      .filter(_.isDefined)
-      .map(_.get)
-      .concat(operador1.analizarse(reglas))
-      .concat(operador2.analizarse(reglas))
-  }
+}
 
+object OperacionBinariaAST {
+  def unapply(ast: ElementoAST): Option[(ElementoAST, ElementoAST)] = ast match {
+    case operacionBinaria : OperacionBinariaAST => Some(operacionBinaria.operador1, operacionBinaria.operador2)
+    case _ => None
+  }
 }
