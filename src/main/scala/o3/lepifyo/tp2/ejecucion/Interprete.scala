@@ -7,6 +7,8 @@ class Interprete {
 
   def interpretar(ast: List[ElementoAST]): ResultadoExpresion = {
     ast.map(_.evaluarse()).last
+    //TODO `interpretar` puede recibir una memoria, que la pasa a evaluarse, y que la memoria conozca a la memoria
+    // de arriba
   }
 
 }

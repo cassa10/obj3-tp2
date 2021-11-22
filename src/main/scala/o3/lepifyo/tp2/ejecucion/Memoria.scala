@@ -6,6 +6,8 @@ import scala.collection.mutable.Map
 
 object Memoria {
 
+  //TODO refactorizar esto fuertemente
+
   var variables: Map[String, ResultadoExpresion] = Map.empty
 
   def guardarVariable(nombre: String, valorInicial: ResultadoExpresion): Unit = variables += (nombre -> valorInicial)

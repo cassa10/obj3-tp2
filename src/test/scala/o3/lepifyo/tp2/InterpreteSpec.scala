@@ -3,6 +3,7 @@ package o3.lepifyo.tp2
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos, ErrorDivisionPorCero}
 import o3.lepifyo.tp2.ast.literales.NumeroLiteralAST
+import o3.lepifyo.tp2.ast.operaciones.SumaAST
 import o3.lepifyo.tp2.ast.variables.{DeclaracionVariableAST, VariableAST}
 import o3.lepifyo.tp2.resultado.{ResultadoAsignacionVariable, ResultadoBooleanoLiteral, ResultadoLambda, ResultadoNumeroLiteral}
 import o3.lepifyo.tp2.ejecucion.{Interprete, Memoria}
@@ -292,6 +293,13 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
         val ast = parser.parsear("(() -> 1)()")
 
         interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(1))
+      }
+
+      it("el resultado de interpretar un programa con la aplicacion de una lambda con un parametro es el resultado de la aplicacion de la lambda") {
+        val ast = parser.parsear("let masUno = (x) -> x + 1 \n masUno(5)")
+
+        interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(6))
+        Memoria.obtenerValorVariable("masUno") should equal(ResultadoLambda(List("x"), List(SumaAST(VariableAST("x"), NumeroLiteralAST(1)))))
       }
 
     }
