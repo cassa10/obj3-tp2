@@ -10,8 +10,8 @@ object Memoria {
 
   def guardarVariable(nombre: String, valorInicial: ResultadoExpresion): Unit = variables += (nombre -> valorInicial)
 
-  def obtenerVariable(nombre: String): ResultadoExpresion = variables(nombre)
-
   def actualizarVariable(nombre: String, valorNuevo: ResultadoExpresion): Unit = variables(nombre) = valorNuevo
+
+  def obtenerValorVariable(nombre: String): ResultadoExpresion = variables(nombre)
 
 }

@@ -1,6 +1,7 @@
 package o3.lepifyo.tp2.analisis
 
-import o3.lepifyo.tp2.ast.{BooleanoLiteralAST, ElementoAST, NumeroLiteralAST}
+import o3.lepifyo.tp2.ast.ElementoAST
+import o3.lepifyo.tp2.ast.literales.{BooleanoLiteralAST, NumeroLiteralAST}
 import o3.lepifyo.tp2.ast.operaciones.OperacionBinariaAST
 import o3.lepifyo.tp2.ast.variables.{AsignacionAST, DeclaracionVariableAST}
 

@@ -243,20 +243,25 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
       val ast = parser.parsear("let edad = 27")
 
       interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
-      Memoria.obtenerVariable("edad") should equal(ResultadoNumeroLiteral(27))
+      Memoria.obtenerValorVariable("edad") should equal(ResultadoNumeroLiteral(27))
     }
 
     it("el resultado de interpretar un programa con la lectura de una variable previamente declarada es la representación del valor inicial asignado a la variable") {
-      val ast = parser.parsear("let edad = 27 \nedad")
+      val programa = """let edad = 27
+                       |edad"""
+      val ast = parser.parsear(programa)
 
       interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(27))
     }
 
     it("el resultado de interpretar un programa con la escritura de una variable previamente declarada es la representación de asignación de variable y la actualización en memoria de la variable con su último valor asociado") {
-      val ast = parser.parsear("let añoActual = 2020 \nañoActual = añoActual + 1")
+      val programa =
+        """let añoActual = 2020
+          |añoActual = añoActual + 1"""
+      val ast = parser.parsear(programa)
 
       interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
-      Memoria.obtenerVariable("añoActual") should equal(ResultadoNumeroLiteral(2021))
+      Memoria.obtenerValorVariable("añoActual") should equal(ResultadoNumeroLiteral(2021))
     }
 
   }

@@ -2,7 +2,8 @@ package o3.lepifyo.tp2.analisis
 
 import o3.lepifyo.tp2.analisis.NivelGravedad.Tipo
 import o3.lepifyo.tp2.ast.operaciones.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
-import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteralAST}
+import o3.lepifyo.tp2.ast.ElementoAST
+import o3.lepifyo.tp2.ast.literales.NumeroLiteralAST
 
 case class OperacionReduntante() extends Regla {
 

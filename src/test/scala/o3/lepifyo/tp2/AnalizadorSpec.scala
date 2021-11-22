@@ -2,17 +2,18 @@ package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.parser.ParserFactory.Programa
-import o3.lepifyo.tp2.analisis.{Analizador, DeclaracionDeVariableDuplicada, DivisionPorCero, MensajeProblema, NivelGravedad, OperacionReduntante, Problema}
+import o3.lepifyo.tp2.analisis.{Analizador, DivisionPorCero, MensajeProblema, NivelGravedad, OperacionReduntante, Problema, VariableDuplicada}
 import o3.lepifyo.tp2.ast.operaciones.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
 import o3.lepifyo.tp2.ast.variables.DeclaracionVariableAST
-import o3.lepifyo.tp2.ast.{ElementoAST, NumeroLiteralAST}
+import o3.lepifyo.tp2.ast.ElementoAST
+import o3.lepifyo.tp2.ast.literales.NumeroLiteralAST
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
 
 class AnalizadorSpec extends AnyFunSpec with Matchers {
 
   private val parser = ParserFactory.build
-  private val analizador = new Analizador(List(new DivisionPorCero, new OperacionReduntante, new DeclaracionDeVariableDuplicada))
+  private val analizador = new Analizador(List(new DivisionPorCero, new OperacionReduntante, new VariableDuplicada))
 
   describe("análisis de programa") {
 
@@ -109,11 +110,14 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
         )
      }
 
-      it("Se encuentra un error al analizar un problema en el que se delcara la misma variable multiples veces") {
-        val ast = parser.parsear("let var = 1 \n let var = 2")
+      it("Se encuentra un error al analizar un programa en el que se declara más de una vez la misma variable") {
+        val programa =
+          """let var = 1
+            |let var = 2"""
+        val ast = parser.parsear(programa)
 
         assertarQueElUnicoProblemaCumple(ast,
-          MensajeProblema.DeclaracionDeVariableRepetida("var"),
+          MensajeProblema.VariableDuplicada("var"),
           NivelGravedad.Error,
           DeclaracionVariableAST("var", NumeroLiteralAST(2))
         )

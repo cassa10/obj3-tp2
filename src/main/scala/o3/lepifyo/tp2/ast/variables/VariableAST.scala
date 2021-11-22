@@ -5,5 +5,7 @@ import o3.lepifyo.tp2.ejecucion.Memoria
 import o3.lepifyo.tp2.resultado.ResultadoExpresion
 
 case class VariableAST(nombre: String) extends ElementoAST {
-  override def evaluarse(): ResultadoExpresion = Memoria.obtenerVariable(nombre)
+
+  override def evaluarse(): ResultadoExpresion = Memoria.obtenerValorVariable(nombre)
+  
 }

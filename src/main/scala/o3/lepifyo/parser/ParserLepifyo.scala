@@ -30,7 +30,7 @@ case class ParserLepifyo[TPrograma, TExpresion](
 ) extends RegexParsers {
   
   protected override val whiteSpace: Regex = """\h+""".r
-  
+
   def parsear(textoPrograma: String): TPrograma = {
     def parserEspacios: Parser[String] = """\s*""".r
     def parserNumero: Parser[TExpresion] = """[0-9]+""".r ^^ { n => numero(n.toInt) }
@@ -108,7 +108,7 @@ case class ParserLepifyo[TPrograma, TExpresion](
 
     def parserPrograma = parserInstrucciones ^^ programa
 
-    parseAll(parserPrograma, textoPrograma) match {
+    parseAll(parserPrograma, textoPrograma.stripMargin) match {
       case Success(matched, _) => matched
       case Failure(message, rest) => throw ParseError(s"$message: ${rest.source}")
       case Error(message, rest) => throw ParseError(s"$message: ${rest.source}")
