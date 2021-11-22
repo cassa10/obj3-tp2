@@ -3,6 +3,7 @@ package o3.lepifyo.parser
 import o3.lepifyo.tp2.ast.operaciones.{DistintoAST, DivisionAST, IgualAST, MayorAST, MayorIgualAST, MenorAST, MenorIgualAST, MultiplicacionAST, RestaAST, SumaAST}
 import o3.lepifyo.tp2.ast.variables.{AsignacionAST, DeclaracionVariableAST, VariableAST}
 import o3.lepifyo.tp2.ast.ElementoAST
+import o3.lepifyo.tp2.ast.lambda.{AplicacionLambdaAST, LambdaAST}
 import o3.lepifyo.tp2.ast.literales.{BooleanoLiteralAST, NumeroLiteralAST}
 
 object ParserFactory {
@@ -42,6 +43,10 @@ object ParserFactory {
 
   def asignacion(nombre: String, valorNuevo: Expresion) = AsignacionAST(nombre, valorNuevo)
 
+  def lambda(parametros: List[String], cuerpo: List[Expresion]) = LambdaAST(parametros, cuerpo)
+
+  def aplicacion(funcion: Expresion, argumentos: List[Expresion]) = AplicacionLambdaAST(funcion, argumentos)
+
   def build: ParserLepifyo[Programa, Expresion] = new ParserLepifyo[Programa, Expresion](
     programa = programa,
     numero = numero,
@@ -58,7 +63,9 @@ object ParserFactory {
     mayorIgual = mayorIgual,
     declaracionVariable = declaracionVariable,
     variable = variable,
-    asignacion = asignacion
+    asignacion = asignacion,
+    lambda = lambda,
+    aplicacion = aplicacion,
   )
 
 }

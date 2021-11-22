@@ -2,7 +2,9 @@ package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos, ErrorDivisionPorCero}
-import o3.lepifyo.tp2.resultado.{ResultadoAsignacionVariable, ResultadoBooleanoLiteral, ResultadoNumeroLiteral}
+import o3.lepifyo.tp2.ast.literales.NumeroLiteralAST
+import o3.lepifyo.tp2.ast.variables.{DeclaracionVariableAST, VariableAST}
+import o3.lepifyo.tp2.resultado.{ResultadoAsignacionVariable, ResultadoBooleanoLiteral, ResultadoLambda, ResultadoNumeroLiteral}
 import o3.lepifyo.tp2.ejecucion.{Interprete, Memoria}
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
@@ -262,6 +264,36 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
 
       interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
       Memoria.obtenerValorVariable("añoActual") should equal(ResultadoNumeroLiteral(2021))
+    }
+
+    describe("lambdas"){
+
+      it("el resultado de interpretar un programa con la declaracion de una lambda es la representacion de la asignacion de una variable y el guardado en memoria de la variable con la lambda") {
+        val ast = parser.parsear("let siempreUno = () -> 1")
+
+        interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
+        Memoria.obtenerValorVariable("siempreUno") should equal(ResultadoLambda(List.empty, List(NumeroLiteralAST(1))))
+      }
+
+      it("el resultado de interpretar un programa con la declaracion de una lambda con multiples lineas es la representacion de la asignacion de una variable y el guardado en memoria de la variable con la lambda") {
+        val ast = parser.parsear("let siempreUno = () -> { let x = 1 \n x }")
+
+        interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
+        Memoria.obtenerValorVariable("siempreUno") should equal(ResultadoLambda(List.empty, List(DeclaracionVariableAST("x", NumeroLiteralAST(1)), VariableAST("x"))))
+      }
+
+      it("el resultado de interpretar un programa con la asignacion y aplicacion de una lambda es el resultado de la aplicacion de la lambda") {
+        val ast = parser.parsear("let siempreUno = () -> 1 \n siempreUno()")
+
+        interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(1))
+      }
+
+      it("el resultado de interpretar un programa con la aplicacion de una lambda es el resultado de la aplicacion de la lambda") {
+        val ast = parser.parsear("(() -> 1)()")
+
+        interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(1))
+      }
+
     }
 
   }
