@@ -9,16 +9,27 @@ import o3.lepifyo.tp2.resultado.{ResultadoExpresion, ResultadoLambda}
 
 case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) extends ElementoAST {
 
-  override def evaluarse(): ResultadoExpresion =
+  val interprete = new Interprete()
+
+  override def evaluarse(): ResultadoExpresion = {
     funcion match {
-      case VariableAST(nombre) => Memoria.obtenerValorVariable(nombre) match {
-        case ResultadoLambda(parametros, cuerpo) =>
-          val interprete = new Interprete()
-          (parametros zip argumentos).foreach(t => Memoria.guardarVariable(t._1, t._2.evaluarse()))
-          interprete.interpretar(cuerpo)
-      }
-      case LambdaAST(parametros, cuerpo) => new Interprete().interpretar(cuerpo)
+      case LambdaAST(parametros, cuerpo) => interpretarLambda(parametros, cuerpo)
+      case VariableAST(nombre) =>
+        Memoria.obtenerValorVariable(nombre) match {
+          case ResultadoLambda(parametros, cuerpo) => interpretarLambda(parametros, cuerpo)
+        }
       case _ => throw ErrorDeTipos()
     }
+  }
+
+  private def interpretarLambda(parametros: List[String], cuerpo: List[ElementoAST]) = {
+    asignarParametros(parametros, argumentos)
+    interprete.interpretar(cuerpo)
+  }
+
+  private def asignarParametros(parametros: List[String], argumentos: List[Expresion]) = {
+    (parametros zip argumentos).foreach(t => Memoria.guardarVariable(t._1, t._2.evaluarse()))
+  }
+
 }
 

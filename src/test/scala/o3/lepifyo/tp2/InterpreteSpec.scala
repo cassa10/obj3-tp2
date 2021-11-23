@@ -267,39 +267,80 @@ class InterpreteSpec extends AnyFunSpec with Matchers {
       Memoria.obtenerValorVariable("añoActual") should equal(ResultadoNumeroLiteral(2021))
     }
 
-    describe("lambdas"){
+    describe("lambdas") {
 
-      it("el resultado de interpretar un programa con la declaracion de una lambda es la representacion de la asignacion de una variable y el guardado en memoria de la variable con la lambda") {
-        val ast = parser.parsear("let siempreUno = () -> 1")
+      describe("declaración") {
 
-        interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
-        Memoria.obtenerValorVariable("siempreUno") should equal(ResultadoLambda(List.empty, List(NumeroLiteralAST(1))))
+        it("el resultado de interpretar un programa con la declaración de una lambda es la representación de la asignación de una variable y el guardado en memoria de la variable con su lambda asociada") {
+          val ast = parser.parsear("let siempreUno = () -> 1")
+
+          interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
+          Memoria.obtenerValorVariable("siempreUno") should equal(ResultadoLambda(List.empty, List(NumeroLiteralAST(1))))
+        }
+
+        it("el resultado de interpretar un programa con la declaración de una lambda con múltiples líneas es la representación de la asignación de una variable y el guardado en memoria de la variable con su lambda asociada") {
+          val programa =
+            """let siempreUno = () -> {
+              | let x = 1
+              | x
+              |}"""
+          val ast = parser.parsear(programa)
+
+          interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
+          Memoria.obtenerValorVariable("siempreUno") should equal(ResultadoLambda(List.empty, List(DeclaracionVariableAST("x", NumeroLiteralAST(1)), VariableAST("x"))))
+        }
+
       }
 
-      it("el resultado de interpretar un programa con la declaracion de una lambda con multiples lineas es la representacion de la asignacion de una variable y el guardado en memoria de la variable con la lambda") {
-        val ast = parser.parsear("let siempreUno = () -> { let x = 1 \n x }")
+      describe("aplicación") {
 
-        interprete.interpretar(ast) should equal(ResultadoAsignacionVariable())
-        Memoria.obtenerValorVariable("siempreUno") should equal(ResultadoLambda(List.empty, List(DeclaracionVariableAST("x", NumeroLiteralAST(1)), VariableAST("x"))))
-      }
+        it("el resultado de interpretar un programa con la aplicación de una lambda es la representación del resultado de la aplicación de la lambda") {
+          val ast = parser.parsear("(() -> 1)()")
 
-      it("el resultado de interpretar un programa con la asignacion y aplicacion de una lambda es el resultado de la aplicacion de la lambda") {
-        val ast = parser.parsear("let siempreUno = () -> 1 \n siempreUno()")
+          interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(1))
+        }
 
-        interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(1))
-      }
+        it("el resultado de interpretar un programa con la aplicación de una lambda con un parámetro es la representación del resultado de la aplicación de la lambda con el argumento correspondiente") {
+          val ast = parser.parsear("((x) -> x + 1)(2)")
 
-      it("el resultado de interpretar un programa con la aplicacion de una lambda es el resultado de la aplicacion de la lambda") {
-        val ast = parser.parsear("(() -> 1)()")
+          interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(3))
+        }
 
-        interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(1))
-      }
+        it("el resultado de interpretar un programa con la aplicación de una lambda con más de un parámetro es la representación del resultado de la aplicación de la lambda con los argumentos correspondientes") {
+          val ast = parser.parsear("((x, y) -> x + y)(3, 2)")
 
-      it("el resultado de interpretar un programa con la aplicacion de una lambda con un parametro es el resultado de la aplicacion de la lambda") {
-        val ast = parser.parsear("let masUno = (x) -> x + 1 \n masUno(5)")
+          interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(5))
+        }
 
-        interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(6))
-        Memoria.obtenerValorVariable("masUno") should equal(ResultadoLambda(List("x"), List(SumaAST(VariableAST("x"), NumeroLiteralAST(1)))))
+        it("el resultado de interpretar un programa con la aplicación de una lambda previamente asignada a una variable es la representación del resultado de la aplicación de la lambda") {
+          val programa =
+            """let siempreUno = () -> 1
+              |siempreUno()"""
+          val ast = parser.parsear(programa)
+
+          interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(1))
+        }
+
+        it("el resultado de interpretar un programa con la aplicación de una lambda con un parámetro es el resultado de la aplicación de la lambda con el argumento correspondiente") {
+          val programa =
+            """let masUno = (x) -> x + 1
+              |masUno(2)"""
+          val ast = parser.parsear(programa)
+
+          interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(3))
+          Memoria.obtenerValorVariable("masUno") should equal(ResultadoLambda(List("x"), List(SumaAST(VariableAST("x"), NumeroLiteralAST(1)))))
+        }
+
+        it("el resultado de interpretar un programa con la aplicación de una lambda con más de un parámetro es el resultado de la aplicación de la lambda con los argumentos correspondientes") {
+          val programa =
+            """let suma = (x, y) -> x + y
+              |suma(3, 2)"""
+          val ast = parser.parsear(programa)
+
+          interprete.interpretar(ast) should equal(ResultadoNumeroLiteral(5))
+          Memoria.obtenerValorVariable("suma") should equal(ResultadoLambda(List("x", "y"), List(SumaAST(VariableAST("x"), VariableAST("y")))))
+        }
+
       }
 
     }
