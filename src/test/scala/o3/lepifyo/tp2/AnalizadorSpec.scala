@@ -2,7 +2,8 @@ package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.parser.ParserFactory.Programa
-import o3.lepifyo.tp2.analisis.{Analizador, MensajeProblema, NivelGravedad, Problema}
+import o3.lepifyo.tp2.analisis.regla.NivelGravedad
+import o3.lepifyo.tp2.analisis.{Analizador, MensajeProblema, Problema}
 import o3.lepifyo.tp2.ast.operaciones.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
 import o3.lepifyo.tp2.ast.variables.DeclaracionVariableAST
 import o3.lepifyo.tp2.ast.ElementoAST

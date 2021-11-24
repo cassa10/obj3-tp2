@@ -1,5 +1,6 @@
 package o3.lepifyo.tp2.analisis
 
+import o3.lepifyo.tp2.analisis.regla.{DivisionPorCero, OperacionRedundante, Regla, VariableDuplicada}
 import o3.lepifyo.tp2.ast.ElementoAST
 import o3.lepifyo.tp2.ast.literales.{BooleanoLiteralAST, NumeroLiteralAST}
 import o3.lepifyo.tp2.ast.operaciones.OperacionBinariaAST
@@ -9,7 +10,7 @@ object Analizador {
 
   val reglas: List[Regla] = List(
     DivisionPorCero,
-    OperacionReduntante,
+    OperacionRedundante,
     VariableDuplicada
   ).map(x => x.apply())
 
