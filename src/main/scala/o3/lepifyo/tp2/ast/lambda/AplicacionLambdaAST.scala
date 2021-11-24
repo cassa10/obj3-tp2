@@ -11,24 +11,24 @@ case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) 
 
   val interprete = new Interprete()
 
-  override def evaluarse(): ResultadoExpresion = {
+  override def evaluarse(memoria: Memoria): ResultadoExpresion = {
     funcion match {
-      case LambdaAST(parametros, cuerpo) => interpretarLambda(parametros, cuerpo)
+      case LambdaAST(parametros, cuerpo) => interpretarLambda(parametros, cuerpo, memoria)
       case VariableAST(nombre) =>
-        Memoria.obtenerValorVariable(nombre) match {
-          case ResultadoLambda(parametros, cuerpo) => interpretarLambda(parametros, cuerpo)
+        memoria.obtenerValorVariable(nombre) match {
+          case ResultadoLambda(parametros, cuerpo) => interpretarLambda(parametros, cuerpo, memoria)
         }
       case _ => throw ErrorDeTipos()
     }
   }
 
-  private def interpretarLambda(parametros: List[String], cuerpo: List[ElementoAST]) = {
-    asignarParametros(parametros, argumentos)
-    interprete.interpretar(cuerpo)
+  private def interpretarLambda(parametros: List[String], cuerpo: List[ElementoAST], memoria: Memoria) = {
+    asignarParametros(parametros, argumentos, memoria)
+    interprete.interpretar(cuerpo, memoria)
   }
 
-  private def asignarParametros(parametros: List[String], argumentos: List[Expresion]) = {
-    (parametros zip argumentos).foreach(t => Memoria.guardarVariable(t._1, t._2.evaluarse()))
+  private def asignarParametros(parametros: List[String], argumentos: List[Expresion], memoria: Memoria) = {
+    (parametros zip argumentos).foreach(t => memoria.guardarVariable(t._1, t._2.evaluarse(memoria)))
   }
 
 }

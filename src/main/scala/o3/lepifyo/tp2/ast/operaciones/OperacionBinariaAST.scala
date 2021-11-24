@@ -1,6 +1,7 @@
 package o3.lepifyo.tp2.ast.operaciones
 
 import o3.lepifyo.tp2.ast.ElementoAST
+import o3.lepifyo.tp2.ejecucion.Memoria
 import o3.lepifyo.tp2.resultado.ResultadoExpresion
 
 abstract class OperacionBinariaAST extends ElementoAST {
@@ -11,7 +12,7 @@ abstract class OperacionBinariaAST extends ElementoAST {
 
   def operacion: (Int, Int) => ResultadoExpresion
 
-  def evaluarse(): ResultadoExpresion
+  def evaluarse(memoria: Memoria): ResultadoExpresion
 
 }
 

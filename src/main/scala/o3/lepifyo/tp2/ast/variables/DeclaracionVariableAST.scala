@@ -6,8 +6,8 @@ import o3.lepifyo.tp2.resultado.{ResultadoAsignacionVariable, ResultadoExpresion
 
 case class DeclaracionVariableAST(nombre: String, valorInicial: ElementoAST) extends ElementoAST {
 
-  override def evaluarse(): ResultadoExpresion = {
-    Memoria.guardarVariable(nombre, valorInicial.evaluarse())
+  override def evaluarse(memoria: Memoria): ResultadoExpresion = {
+    memoria.guardarVariable(nombre, valorInicial.evaluarse(memoria))
     ResultadoAsignacionVariable()
   }
 

@@ -24,7 +24,7 @@ object REPL {
 
   def parsearEInterpretar(input: String): Unit = {
     try {
-      println(interprete.interpretar(parser.parsear(input)))
+      println(interprete.interpretar(parser.parsear(input), new Memoria()))
     } catch {
       //TODO: Mejorar el class matching y personalizar mas el mensaje de error
       case e: Exception => println("Error: " + e.getMessage)

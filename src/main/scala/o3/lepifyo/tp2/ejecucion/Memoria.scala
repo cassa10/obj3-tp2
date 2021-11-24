@@ -4,7 +4,7 @@ import o3.lepifyo.tp2.resultado.ResultadoExpresion
 
 import scala.collection.mutable.Map
 
-object Memoria {
+class Memoria {
 
   //TODO refactorizar esto fuertemente
 
