@@ -5,24 +5,30 @@ import o3.lepifyo.tp2.ast.literales.{BooleanoLiteralAST, NumeroLiteralAST}
 import o3.lepifyo.tp2.ast.operaciones.OperacionBinariaAST
 import o3.lepifyo.tp2.ast.variables.{AsignacionAST, DeclaracionVariableAST}
 
-class Analizador(val reglas: List[Regla]) {
+object Analizador {
 
-  def analizar(ast: List[ElementoAST]): List[Problema] = ast.flatMap(this.analizarAst)
+  val reglas: List[Regla] = List(
+    DivisionPorCero,
+    OperacionReduntante,
+    VariableDuplicada
+  ).map(x => x.apply())
 
-  def analizarAst(ast: ElementoAST): List[Problema] = {
+  def analizar(ast: List[ElementoAST]): List[Problema] = ast.flatMap(analizarAST)
+
+  private def analizarAST(ast: ElementoAST): List[Problema] = {
     ast match {
       case OperacionBinariaAST(op1, op2) => analizarElementoActual(ast)
-        .concat(analizarAst(op1))
-        .concat(analizarAst(op2))
+        .concat(analizarAST(op1))
+        .concat(analizarAST(op2))
       case DeclaracionVariableAST(_, astAsignado) => analizarElementoActual(ast)
-        .concat(analizarAst(astAsignado))
+        .concat(analizarAST(astAsignado))
       case AsignacionAST(_, astAsignado) => analizarElementoActual(ast)
-        .concat(analizarAst(astAsignado))
+        .concat(analizarAST(astAsignado))
       case BooleanoLiteralAST(_) | NumeroLiteralAST(_) => analizarElementoActual(ast)
     }
   }
 
-  private def analizarElementoActual(ast: ElementoAST) = {
+  private def analizarElementoActual(ast: ElementoAST): List[Problema] = {
     reglas.map(regla => regla.apply(ast))
       .filter(_.isDefined)
       .map(_.get)

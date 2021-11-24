@@ -2,7 +2,7 @@ package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
 import o3.lepifyo.parser.ParserFactory.Programa
-import o3.lepifyo.tp2.analisis.{Analizador, DivisionPorCero, MensajeProblema, NivelGravedad, OperacionReduntante, Problema, VariableDuplicada}
+import o3.lepifyo.tp2.analisis.{Analizador, MensajeProblema, NivelGravedad, Problema}
 import o3.lepifyo.tp2.ast.operaciones.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
 import o3.lepifyo.tp2.ast.variables.DeclaracionVariableAST
 import o3.lepifyo.tp2.ast.ElementoAST
@@ -13,14 +13,13 @@ import org.scalatest.matchers.should.Matchers
 class AnalizadorSpec extends AnyFunSpec with Matchers {
 
   private val parser = ParserFactory.build
-  private val analizador = new Analizador(List(new DivisionPorCero, new OperacionReduntante, new VariableDuplicada))
 
   describe("análisis de programa") {
 
     it("No se encuentran problemas al analizar un programa correcto") {
       val ast = parser.parsear("1 + 1")
 
-      val problemasEncontrados = analizador.analizar(ast)
+      val problemasEncontrados = Analizador.analizar(ast)
 
       problemasEncontrados shouldBe empty
     }
@@ -40,7 +39,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
       it("Se encuentran errores al analizar un programa que contiene mas de una división por cero") {
         val ast = parser.parsear("100 + 5 \n 100 + (1 / 0) / 20 \n (50 / 0)")
 
-        val List(problema1, problema2) = analizador.analizar(ast)
+        val List(problema1, problema2) = Analizador.analizar(ast)
 
         problema1 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteralAST(1), NumeroLiteralAST(0)))
         problema2 shouldBe Problema(MensajeProblema.DivisionPorCero, NivelGravedad.Error, DivisionAST(NumeroLiteralAST(50), NumeroLiteralAST(0)))
@@ -132,7 +131,7 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
                                                nivelGravedadEsperado: NivelGravedad.Value,
                                                astEsperado: ElementoAST
                                               ): Unit = {
-    val List(Problema(mensaje, nivelGravedad, astConProblema)) = analizador.analizar(ast)
+    val List(Problema(mensaje, nivelGravedad, astConProblema)) = Analizador.analizar(ast)
 
     mensaje shouldBe mensajeEsperado
     nivelGravedad shouldBe nivelGravedadEsperado
