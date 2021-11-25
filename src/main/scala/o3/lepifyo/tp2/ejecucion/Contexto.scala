@@ -32,7 +32,7 @@ class Contexto(val contextoPadre: Contexto) {
 
 object Contexto {
 
-  def contextoSinAncestros: Contexto = new Contexto(null)
+  def contextoGlobal: Contexto = new Contexto(null)
 
 }
 

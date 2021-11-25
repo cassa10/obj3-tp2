@@ -8,8 +8,6 @@ object REPL {
 
   val parser = ParserFactory.build
 
-  val interprete = new Interprete
-
   def main(args: Array[String]): Unit = {
     var keepRunning = true
     while (keepRunning) {
@@ -24,7 +22,7 @@ object REPL {
 
   def parsearEInterpretar(input: String): Unit = {
     try {
-      println(interprete.interpretar(parser.parsear(input), new Contexto(null)))
+      println(Interprete.interpretar(parser.parsear(input), Contexto.contextoGlobal))
     } catch {
       //TODO: Mejorar el class matching y personalizar mas el mensaje de error
       case e: Exception => println("Error: " + e.getMessage)

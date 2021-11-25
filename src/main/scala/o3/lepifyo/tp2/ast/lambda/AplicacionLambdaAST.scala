@@ -9,8 +9,6 @@ import o3.lepifyo.tp2.resultado.{ResultadoExpresion, ResultadoLambda}
 
 case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) extends ElementoAST {
 
-  val interprete = new Interprete()
-
   override def evaluarse(contexto: Contexto): ResultadoExpresion = {
     val contextoDeLambda = new Contexto(contexto)
     funcion match {
@@ -25,7 +23,7 @@ case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) 
 
   private def interpretarLambda(parametros: List[String], cuerpo: List[ElementoAST], contextoDeLambda: Contexto) = {
     asignarParametros(parametros, argumentos, contextoDeLambda)
-    interprete.interpretar(cuerpo, contextoDeLambda)
+    Interprete.interpretar(cuerpo, contextoDeLambda)
   }
 
   private def asignarParametros(parametros: List[String], argumentos: List[Expresion], contextoDeLambda: Contexto) = {
