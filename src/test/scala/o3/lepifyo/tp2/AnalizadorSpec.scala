@@ -5,8 +5,9 @@ import o3.lepifyo.parser.ParserFactory.Programa
 import o3.lepifyo.tp2.analisis.regla.NivelGravedad
 import o3.lepifyo.tp2.analisis.{Analizador, MensajeProblema, Problema}
 import o3.lepifyo.tp2.ast.operaciones.{DivisionAST, MultiplicacionAST, RestaAST, SumaAST}
-import o3.lepifyo.tp2.ast.variables.DeclaracionVariableAST
+import o3.lepifyo.tp2.ast.variables.{DeclaracionVariableAST, VariableAST}
 import o3.lepifyo.tp2.ast.ElementoAST
+import o3.lepifyo.tp2.ast.lambda.LambdaAST
 import o3.lepifyo.tp2.ast.literales.NumeroLiteralAST
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
@@ -120,6 +121,38 @@ class AnalizadorSpec extends AnyFunSpec with Matchers {
           MensajeProblema.VariableDuplicada("var"),
           NivelGravedad.Error,
           DeclaracionVariableAST("var", NumeroLiteralAST(2))
+        )
+      }
+
+    }
+
+    describe("Análisis de programas con problemas en lambdas") {
+
+      it("Se encuentra un error al analizar un programa en el que se declara una lambda cuya ultima instruccion no es una expresion") {
+        val programa =
+          """let lambda = () -> {
+            | let x = 2
+            |}"""
+        val ast = parser.parsear(programa)
+
+        assertarQueElUnicoProblemaCumple(ast,
+          MensajeProblema.LambdaNoRetornaExpresion,
+          NivelGravedad.Error,
+          LambdaAST(List.empty, List(DeclaracionVariableAST("x", NumeroLiteralAST(2))))
+        )
+      }
+
+      it("Se encuentra un error al analizar un programa en el que se declara una lambda con mas de un parametro con el mismo nombre") {
+        val programa =
+          """let otraLambda = (n, n) -> {
+            | n
+            |}"""
+        val ast = parser.parsear(programa)
+
+        assertarQueElUnicoProblemaCumple(ast,
+          MensajeProblema.NombreDeParametrosRepetido,
+          NivelGravedad.Error,
+          LambdaAST(List("n", "n"), List(VariableAST("n")))
         )
       }
 

@@ -6,10 +6,14 @@ import o3.lepifyo.tp2.ast.ElementoAST
 case class Problema(descripcion: String, nivelGravedad: NivelGravedad.Tipo, astElem: ElementoAST)
 
 object MensajeProblema {
+
+
+  val LambdaNoRetornaExpresion: String = "La ultima instruccion de una lambda debe ser una expresion"
   val DivisionPorCero = "No se puede dividir por cero"
   val RestarCero = "Restar cero es redundante"
   val SumaCero = "Sumar cero es redundante"
   val MultiplicarUno = "Multiplicar por uno es redundante"
   val DividirUno = "Dividir por uno es redundante"
   val VariableDuplicada: String => String = (nombre: String) => s"La variable $nombre ya se encuentra declarada"
+  val NombreDeParametrosRepetido: String = "Un parametro esta declarado multiples veces en una lambda"
 }
