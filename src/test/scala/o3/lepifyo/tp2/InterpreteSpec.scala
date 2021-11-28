@@ -457,7 +457,7 @@ class InterpreteSpec extends AnyFunSpec with Matchers with BeforeAndAfter {
           Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(3))
         }
 
-        ignore("en la interpretación de un programa, anidar lambdas genera que cada una de ellas interprete el valor de las variables según su propio contexto, resultando irrelevante desde qué contexto se la invoca") {
+        it("en la interpretación de un programa, anidar lambdas genera que cada una de ellas interprete el valor de las variables según su propio contexto, resultando irrelevante desde qué contexto se la invoca") {
           val programa =
             """let x = 1
               |let devolverX = () -> x

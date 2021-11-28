@@ -15,7 +15,7 @@ case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) 
       case LambdaAST(parametros, cuerpo) => interpretarLambda(parametros, cuerpo, contextoDeLambda)
       case VariableAST(nombre) =>
         contexto.obtenerValorVariable(nombre) match {
-          case ResultadoLambda(parametros, cuerpo) => interpretarLambda(parametros, cuerpo, contextoDeLambda)
+          case ResultadoLambda(parametros, cuerpo, gammaContext) => interpretarLambda(parametros, cuerpo, gammaContext)
         }
       case AplicacionLambdaAST(otraFuncion, otrosArgumentos) => AplicacionLambdaAST(otraFuncion, otrosArgumentos).evaluarse(contexto)
       case _ => throw ErrorDeTipos()
@@ -27,7 +27,7 @@ case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) 
     Interprete.interpretar(cuerpo, contextoDeLambda)
   }
 
-  private def asignarParametros(parametros: List[String], argumentos: List[Expresion], contextoDeLambda: Contexto) = {
+  private def asignarParametros(parametros: List[String], argumentos: List[Expresion], contextoDeLambda: Contexto): Unit = {
     (parametros zip argumentos).foreach(t => contextoDeLambda.guardarVariable(t._1, t._2.evaluarse(contextoDeLambda)))
   }
 
