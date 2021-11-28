@@ -431,9 +431,61 @@ class InterpreteSpec extends AnyFunSpec with Matchers with BeforeAndAfter {
 
             Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(1))
           }
+
+        it("en la interpretación de un programa, anidar lambdas genera que cada lambda tenga su contexto, teniendo como contexto padre al contexto en donde fue definida") {
+          val programa =
+            """let x = 1
+              |let sumar = (x) -> (y) -> x + y
+              |sumar(2)(x)"""
+          val ast = parser.parsear(programa)
+
+          Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(3))
         }
 
-        // TODO: Tests para lambdas anidadas
+        ignore("en la interpretación de un programa, anidar lambdas genera que cada una de ellas interprete el valor de las variables según su propio contexto, resultando irrelevante desde qué contexto se la invoca") {
+          val programa =
+            """let x = 1
+              |let devolverX = () -> x
+              |let otroDevolverX = () -> {
+              |  let x = 2
+              |  devolverX()
+              |}
+              |otroDevolverX()"""
+          val ast = parser.parsear(programa)
+
+          Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(1))
+        }
+
+        it("en la interpretación de un programa, se pueden acceder a las variables definidas en cualquier contexto que sea ancestro del contexto de la lambda que se aplica") {
+          val programa =
+            """let x = 1
+              |let sumarAX = (y) -> {
+              |  ((y) -> x + y - 1)(y + 1)
+              |}
+              |sumarAX(2)"""
+          val ast = parser.parsear(programa)
+
+          Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(3))
+        }
+
+        ignore("en la interpretación de un programa, los argumentos de una lambda se evalúan de izquierda a derecha") {
+          val programa =
+            """let x = 1
+              |let modificarXYDevolverSucesor = (y) -> {
+              |  x = y
+              |  y + 1
+              |}
+              |let sumar = (x) -> (y) -> x + y
+              |let aplicarA = (f, x) -> {
+              |  f(x)
+              |}
+              |aplicarA(sumar(modificarXYDevolverSucesor(2)), x)"""
+          val ast = parser.parsear(programa)
+
+          Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(5))
+        }
+
+        }
 
       }
 

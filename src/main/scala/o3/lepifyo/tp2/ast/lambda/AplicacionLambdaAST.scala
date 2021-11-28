@@ -17,6 +17,7 @@ case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) 
         contexto.obtenerValorVariable(nombre) match {
           case ResultadoLambda(parametros, cuerpo) => interpretarLambda(parametros, cuerpo, contextoDeLambda)
         }
+      case AplicacionLambdaAST(otraFuncion, otrosArgumentos) => AplicacionLambdaAST(otraFuncion, otrosArgumentos).evaluarse(contexto)
       case _ => throw ErrorDeTipos()
     }
   }
