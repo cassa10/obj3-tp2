@@ -483,7 +483,19 @@ class InterpreteSpec extends AnyFunSpec with Matchers with BeforeAndAfter {
           Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(3))
         }
 
-        ignore("en la interpretación de un programa, los argumentos de una lambda se evalúan de izquierda a derecha") {
+        it("en la interpretación de un programa, se pueden pasar lambdas como argumentos") {
+          val programa =
+            """let getFst = (x) -> (y) -> x
+              |let aplicarA = (f, x) -> {
+              |  f(x)
+              |}
+              |aplicarA(getFst(5), 2)"""
+          val ast = parser.parsear(programa)
+
+          Interprete.interpretar(ast, contexto) should equal(ResultadoNumeroLiteral(5))
+        }
+
+        it("en la interpretación de un programa, los argumentos de una lambda se evalúan de izquierda a derecha") {
           val programa =
             """let x = 1
               |let modificarXYDevolverSucesor = (y) -> {

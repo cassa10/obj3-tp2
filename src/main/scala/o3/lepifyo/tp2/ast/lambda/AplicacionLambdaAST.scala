@@ -17,7 +17,12 @@ case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) 
         contexto.obtenerValorVariable(nombre) match {
           case ResultadoLambda(parametros, cuerpo, gammaContext) => interpretarLambda(parametros, cuerpo, gammaContext)
         }
-      case AplicacionLambdaAST(otraFuncion, otrosArgumentos) => AplicacionLambdaAST(otraFuncion, otrosArgumentos).evaluarse(contexto)
+      //TODO: se van perdiendo aplicaciones en las anidaciones
+      case AplicacionLambdaAST(otraFuncion, otrosArgumentos) =>
+        AplicacionLambdaAST(otraFuncion, otrosArgumentos).evaluarse(contexto) match {
+          case ResultadoLambda(parametros, cuerpo, gammaContext) => interpretarLambda(parametros, cuerpo, gammaContext)
+          case _ => throw ErrorDeTipos()
+        }
       case _ => throw ErrorDeTipos()
     }
   }
