@@ -1,9 +1,9 @@
 package o3.lepifyo.tp2
 
 import o3.lepifyo.parser.ParserFactory
-import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos, ErrorDivisionPorCero}
+import o3.lepifyo.tp2.ast.exception.{ErrorDeTipos, ErrorDivisionPorCero, ErrorVariableNoEncontrada}
 import o3.lepifyo.tp2.resultado.{ResultadoAsignacionVariable, ResultadoBooleanoLiteral, ResultadoLambda, ResultadoNumeroLiteral}
-import o3.lepifyo.tp2.ejecucion.{Interprete, Contexto}
+import o3.lepifyo.tp2.ejecucion.{Contexto, Interprete}
 import org.scalatest.BeforeAndAfter
 import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.should.Matchers
@@ -266,6 +266,21 @@ class InterpreteSpec extends AnyFunSpec with Matchers with BeforeAndAfter {
 
       Interprete.interpretar(ast, contexto) should equal(ResultadoAsignacionVariable())
     }
+
+    it("al interpretar un programa en la que se trata de llamar a una variable que no existe en ningun contexto esta falla al interpretarse y se lanza una excepcion") {
+      val programa = "x"
+      val ast = parser.parsear(programa)
+      an[ErrorVariableNoEncontrada] should be thrownBy Interprete.interpretar(ast, contexto)
+    }
+
+    it("al interpretar un programa en la que se trata de asignar un valor a una variable que no existe en ningun contexto esta falla al interpretarse y se lanza una excepcion") {
+      val programa =
+        """id = 1
+          |id"""
+      val ast = parser.parsear(programa)
+      an[ErrorVariableNoEncontrada] should be thrownBy Interprete.interpretar(ast, contexto)
+    }
+
 
     describe("lambdas") {
 
