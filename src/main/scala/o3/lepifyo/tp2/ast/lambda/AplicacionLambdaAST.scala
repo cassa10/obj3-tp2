@@ -12,28 +12,27 @@ case class AplicacionLambdaAST(funcion: Expresion, argumentos: List[Expresion]) 
   override def evaluarse(contexto: Contexto): ResultadoExpresion = {
     val contextoDeLambda = new Contexto(contexto)
     funcion match {
-      case LambdaAST(parametros, cuerpo) => interpretarLambda(parametros, cuerpo, contextoDeLambda)
+      case LambdaAST(parametros, cuerpo) => interpretarLambda(parametros, cuerpo, contextoDeLambda, contexto)
       case VariableAST(nombre) =>
         contexto.obtenerValorVariable(nombre) match {
-          case ResultadoLambda(parametros, cuerpo, gammaContext) => interpretarLambda(parametros, cuerpo, gammaContext)
+          case ResultadoLambda(parametros, cuerpo, gammaContext) => interpretarLambda(parametros, cuerpo, gammaContext, contexto)
         }
-      //TODO: se van perdiendo aplicaciones en las anidaciones
       case AplicacionLambdaAST(otraFuncion, otrosArgumentos) =>
         AplicacionLambdaAST(otraFuncion, otrosArgumentos).evaluarse(contexto) match {
-          case ResultadoLambda(parametros, cuerpo, gammaContext) => interpretarLambda(parametros, cuerpo, gammaContext)
+          case ResultadoLambda(parametros, cuerpo, gammaContext) => interpretarLambda(parametros, cuerpo, gammaContext, contexto)
           case _ => throw ErrorDeTipos()
         }
       case _ => throw ErrorDeTipos()
     }
   }
 
-  private def interpretarLambda(parametros: List[String], cuerpo: List[ElementoAST], contextoDeLambda: Contexto) = {
-    asignarParametros(parametros, argumentos, contextoDeLambda)
+  private def interpretarLambda(parametros: List[String], cuerpo: List[ElementoAST], contextoDeLambda: Contexto, contextoAplicacion: Contexto) = {
+    asignarParametros(parametros, argumentos, contextoDeLambda, contextoAplicacion)
     Interprete.interpretar(cuerpo, contextoDeLambda)
   }
 
-  private def asignarParametros(parametros: List[String], argumentos: List[Expresion], contextoDeLambda: Contexto): Unit = {
-    (parametros zip argumentos).foreach(t => contextoDeLambda.guardarVariable(t._1, t._2.evaluarse(contextoDeLambda)))
+  private def asignarParametros(parametros: List[String], argumentos: List[Expresion], contextoDeLambda: Contexto, contextoAplicacion: Contexto): Unit = {
+    (parametros zip argumentos).foreach(t => contextoDeLambda.guardarVariable(t._1, t._2.evaluarse(contextoAplicacion)))
   }
 
 }
